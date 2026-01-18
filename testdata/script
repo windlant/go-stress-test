@@ -1,0 +1,1 @@
+./go-stress-test -u http://192.168.88.129:8080  -c 5 -d 10s
