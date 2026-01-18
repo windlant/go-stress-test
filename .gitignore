@@ -1,0 +1,24 @@
+# Binaries
+*.exe
+*.exe～
+*.dll
+*.so
+*.dylib
+
+# Build artifacts
+/bin/
+/build/
+/dist/
+
+# Go
+/go/bin/
+/go/pkg/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
