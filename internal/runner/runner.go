@@ -155,12 +155,11 @@ func Run(
 		}()
 	}
 
-	// 【关键】等待所有 worker 就绪后，再发出启动信号
-	// 简单轮询（也可用 channel，但轮询足够轻量）
+	// 简单轮询，判断所有 worker 就绪
 	for atomic.LoadInt64(&readyWorkers) < int64(concurrency) {
-		time.Sleep(100 * time.Microsecond) // 避免忙等
+		time.Sleep(100 * time.Microsecond)
 	}
-	close(startSignal) // 广播：所有 worker 开始！
+	close(startSignal)
 
 	// 等待压测结束
 	<-ctx.Done()
@@ -233,7 +232,6 @@ func Run(
 	}, nil
 }
 
-// printProgress 新增 workersReady 和 totalWorkers 参数
 func printProgress(
 	startTime time.Time,
 	total, success, failed int,

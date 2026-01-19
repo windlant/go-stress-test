@@ -22,3 +22,4 @@ GLOBAL OPTIONS:
    --quiet, -q                                            Suppress progress output (default: false)
    --disable-keepalive                                    Disable HTTP Keep-Alive connections (use short-lived connections) (default: false)
    --help, -h                                             show help
+   
