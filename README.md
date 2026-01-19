@@ -1,5 +1,5 @@
 NAME:
-   go-stress-test - A high-performance HTTP load testing tool
+   go-stress-test
 
 USAGE:
    go-stress-test [global options] command [command options]
