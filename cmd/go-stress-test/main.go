@@ -57,7 +57,7 @@ func main() {
 			&cli.DurationFlag{
 				Name:    "duration",
 				Aliases: []string{"d"},
-				Value:   30 * 60 * time.Second,
+				Value:   0,
 				Usage:   "Duration of the test (e.g., 10s, 1m, 2h)",
 			},
 			&cli.IntFlag{
