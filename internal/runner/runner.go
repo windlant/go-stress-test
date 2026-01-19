@@ -23,6 +23,7 @@ type Result struct {
 	P99LatencyMs  float64
 	RPS           float64
 	Duration      time.Duration
+	ErrorSamples  []string
 }
 
 func Run(
@@ -53,6 +54,8 @@ func Run(
 	failed := 0
 	latencies := []time.Duration{}
 	sentCount := 0
+	errorSet := make(map[string]struct{})
+	maxErrorTypes := 20
 
 	// Worker 就绪计数（用于实时打印）
 	var readyWorkers int64 = 0
@@ -141,6 +144,10 @@ func Run(
 					success++
 				} else {
 					failed++
+					if len(errorSet) < maxErrorTypes {
+						errMsg := fmt.Sprintf("code: %d,error:%v", res.StatusCode, res.Error)
+						errorSet[errMsg] = struct{}{}
+					}
 				}
 				latencies = append(latencies, res.Latency)
 				mu.Unlock()
@@ -203,6 +210,13 @@ func Run(
 		successRate = float64(success) / float64(totalReqs)
 	}
 
+	// 收集错误样本
+	var errorSamples []string
+	for msg := range errorSet {
+		errorSamples = append(errorSamples, msg)
+	}
+	sort.Strings(errorSamples)
+
 	return &Result{
 		TotalRequests: totalReqs,
 		Successful:    success,
@@ -215,6 +229,7 @@ func Run(
 		P99LatencyMs:  p99LatencyMs,
 		RPS:           rps,
 		Duration:      realDuration,
+		ErrorSamples:  errorSamples,
 	}, nil
 }
 

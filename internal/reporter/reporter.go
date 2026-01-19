@@ -121,4 +121,14 @@ func (r *Reporter) printFinalReport() {
 	} else {
 		fmt.Fprintf(r.out, "Latency:           N/A (no completed requests)\n")
 	}
+
+	if len(r.result.ErrorSamples) > 0 {
+		fmt.Fprintf(r.out, "\nErrors Observed (%d unique types):\n", len(r.result.ErrorSamples))
+		fmt.Fprintf(r.out, "--------------------------------\n")
+		for i, err := range r.result.ErrorSamples {
+			fmt.Fprintf(r.out, "  [%d] %s\n", i+1, err)
+		}
+	} else if r.result.Failed > 0 {
+		fmt.Fprintf(r.out, "\nErrors:            %d failures, but no error samples collected.\n", r.result.Failed)
+	}
 }

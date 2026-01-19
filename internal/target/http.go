@@ -77,7 +77,7 @@ func (t *HTTPTarget) Send(ctx context.Context) (*Result, error) {
 	if len(t.body) > 0 {
 		reqBody = bytes.NewReader(t.body)
 	}
-	req, err := http.NewRequestWithContext(ctx, t.method, t.url, reqBody)
+	req, err := http.NewRequestWithContext(ctx, strings.ToUpper(t.method), t.url, reqBody)
 	if err != nil {
 		return &Result{
 			Success: false,
